@@ -92,7 +92,7 @@ const todoContainer = document.querySelector(".todo__container");
 const allTodoItemText = [];
 
 todoCreateButton.addEventListener("click", () => {
-  const todoItemText = todoInput.value;
+  const todoItemText = todoInput.value.trim();
   todoInput.value = "";
   if (!todoItemText) {
     return;
@@ -101,7 +101,7 @@ todoCreateButton.addEventListener("click", () => {
   const allTodoItemHtmls = allTodoItemText.map((text) => {
     return `<div class="todo__item">
           <div class="todo__item__left">
-            <input type="checkbox" id="completed" name="completed" />
+            <input type="checkbox" class="todo__checkbox" />
             <span>${text}</span>
           </div>
           <div class="todo__item__right">
@@ -127,4 +127,18 @@ todoCreateButton.addEventListener("click", () => {
   });
 
   todoContainer.innerHTML = allTodoItemHtmls.join(" ");
+  todoContainer.addEventListener("click", (e) => {
+  //  Checkbox clicked
+  if (e.target.classList.contains("todo__checkbox")) {
+    const todoItem = e.target.closest(".todo__item");
+    todoItem.classList.toggle("todo__item--completed");
+  }
+
+  //  Delete button clicked
+  if (e.target.closest(".todo__delete__button")) {
+    const todoItem = e.target.closest(".todo__item");
+    todoItem.remove();
+  }
+});
+
 });
